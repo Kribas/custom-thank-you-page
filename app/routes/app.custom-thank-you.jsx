@@ -69,6 +69,8 @@ export default function AdditionalPage() {
   }, [actionData]);
 
   const handleFormSubmit = (event) => {
+    console.log("Initial commit");
+
     let hasError = false;
     if (!message.trim()) {
       setMessageError("This field cannot be empty!");
