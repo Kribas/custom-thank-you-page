@@ -50,11 +50,18 @@ export default function AdditionalPage() {
     [],
   );
 
-  const handleMessageChange = useCallback((value) => setMessage(value), []);
-  const handleDiscountCodeChange = useCallback(
-    (value) => setDiscountCode(value),
-    [],
-  );
+  const handleMessageChange = useCallback((value) => {
+    setMessage(value);
+    if (value.trim()) {
+      setMessageError("");
+    }
+  }, []);
+  const handleDiscountCodeChange = useCallback((value) => {
+    setDiscountCode(value);
+    if (value.trim()) {
+      setDiscountCodeError("");
+    }
+  }, []);
 
   const toastMarkup =
     activeToast && actionData?.success ? (
@@ -65,26 +72,23 @@ export default function AdditionalPage() {
     if (actionData?.success) {
       setMessage("");
       setDiscountCode("");
+      setActiveToast(true);
     }
   }, [actionData]);
 
   const handleFormSubmit = (event) => {
-    console.log("Initial commit");
-
     let hasError = false;
     if (!message.trim()) {
       setMessageError("This field cannot be empty!");
       hasError = true;
-    } else {
-      setMessageError("");
     }
 
     if (!discountCode.trim()) {
       setDiscountCodeError("This field cannot be empty!");
-      hasError(true);
-    } else {
-      setDiscountCodeError("");
+      hasError = true;
     }
+
+    console.log("ERROR", hasError);
 
     if (hasError) {
       event.preventDefault();
@@ -123,7 +127,7 @@ export default function AdditionalPage() {
                   off your next purchase.
                 </Text>
               </BlockStack>
-              <Button onClick={toggleActiveToast} submit variant="primary">
+              <Button submit variant="primary">
                 Save
               </Button>
             </BlockStack>
