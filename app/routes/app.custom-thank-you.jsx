@@ -28,13 +28,18 @@ export async function action({ request }) {
   const message = formData.get("message");
   const discountCode = formData.get("discountCode");
 
-  await prisma.ThankYouSettings.upsert({
-    where: { shop },
-    update: { message, discountCode },
-    create: { shop, message, discountCode },
-  });
+  try {
+    await prisma.ThankYouSettings.upsert({
+      where: { shop },
+      update: { message, discountCode },
+      create: { shop, message, discountCode },
+    });
 
-  return { success: true };
+    return { success: true };
+  } catch (error) {
+    console.error("Error saving Thank You settings:", error);
+    return { success: false, error: "Failed to save Thank You settings" };
+  }
 }
 
 export default function AdditionalPage() {
@@ -58,7 +63,7 @@ export default function AdditionalPage() {
   }, []);
   const handleDiscountCodeChange = useCallback((value) => {
     setDiscountCode(value);
-    if (value.trim()) {
+    if (value == "WELCOME10") {
       setDiscountCodeError("");
     }
   }, []);
@@ -83,13 +88,10 @@ export default function AdditionalPage() {
       hasError = true;
     }
 
-    if (!discountCode.trim()) {
-      setDiscountCodeError("This field cannot be empty!");
+    if (discountCode && discountCode !== "WELCOME10") {
+      setDiscountCodeError("The Discount code must be exactly 'WELCOME10'");
       hasError = true;
     }
-
-    console.log("ERROR", hasError);
-
     if (hasError) {
       event.preventDefault();
     }
@@ -116,7 +118,7 @@ export default function AdditionalPage() {
               <TextField
                 onChange={handleDiscountCodeChange}
                 name="discountCode"
-                label="Discount Code"
+                label="Discount Code(Optional)"
                 value={discountCode}
                 error={discountCodeError}
               />
