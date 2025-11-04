@@ -17,7 +17,7 @@ function ThankYouExtension() {
   const [message, setMessage] = useState("Loading...");
 
   useEffect(() => {
-    fetch(`apps/api/thankyou-message`)
+    fetch(`/api/thankyou`)
       .then((res) => res.json())
       .then((data) => setMessage(data.message))
       .catch(() => setMessage("Erroorr"));
