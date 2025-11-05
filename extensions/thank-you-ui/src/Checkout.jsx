@@ -1,4 +1,3 @@
-import { json } from "@remix-run/react";
 import {
   reactExtension,
   Text,
@@ -19,19 +18,17 @@ function ThankYouExtension() {
   console.log("SHOP--------", shop);
 
   useEffect(() => {
-    const fetchMessage = async () => {
-      const response = await fetch(
-        `https://titten-federation-ultram-carolina.trycloudflare.com/api/thankyou?shop=${shop.myshopifyDomain}`,
-      );
+    fetch(
+      `https://discs-coaches-ada-grade.trycloudflare.com/api/thankyou?shop=${shop.myshopifyDomain}`,
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setMessage(data?.message);
+      });
+  }, [shop?.myshopifyDomain]);
 
-      console.log("RESPONSE-------", response.json());
-      return response.json();
-    };
-
-    fetchMessage();
-  }, [shop]);
-
-  console.log("MESSAGE-----", message);
   // 3. Render a UI
   return <Text appearance="success">{message}</Text>;
 }
