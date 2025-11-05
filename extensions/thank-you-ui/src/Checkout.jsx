@@ -3,6 +3,7 @@ import {
   reactExtension,
   Text,
   useApi,
+  useShop,
 } from "@shopify/ui-extensions-react/checkout";
 import { useEffect, useState } from "react";
 
@@ -12,19 +13,25 @@ export default reactExtension("purchase.checkout.block.render", () => (
 ));
 
 function ThankYouExtension() {
-  const { shop, extension } = useApi();
-  const extensionTarget = extension.target;
-  const [message, setMessage] = useState("Loading...");
+  const { shop } = useApi();
+  const [message, setMessage] = useState("");
+
+  console.log("SHOP--------", shop);
 
   useEffect(() => {
-    fetch(`/api/thankyou`)
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message))
-      .catch(() => setMessage("Erroorr"));
-  }, []);
+    const fetchMessage = async () => {
+      const response = await fetch(
+        `https://titten-federation-ultram-carolina.trycloudflare.com/api/thankyou?shop=${shop.myshopifyDomain}`,
+      );
 
-  console.log("SHOP-----", shop);
+      console.log("RESPONSE-------", response.json());
+      return response.json();
+    };
 
+    fetchMessage();
+  }, [shop]);
+
+  console.log("MESSAGE-----", message);
   // 3. Render a UI
   return <Text appearance="success">{message}</Text>;
 }
