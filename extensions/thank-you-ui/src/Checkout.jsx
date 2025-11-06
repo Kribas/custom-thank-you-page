@@ -18,9 +18,7 @@ function ThankYouExtension() {
   console.log("SHOP--------", shop);
 
   useEffect(() => {
-    fetch(
-      `https://discs-coaches-ada-grade.trycloudflare.com/api/thankyou?shop=${shop.myshopifyDomain}`,
-    )
+    fetch(`api/thankyou?shop=${shop.myshopifyDomain}`)
       .then((res) => {
         return res.json();
       })
