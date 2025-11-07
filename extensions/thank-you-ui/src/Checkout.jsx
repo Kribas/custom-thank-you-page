@@ -16,7 +16,6 @@ function ThankYouExtension() {
   const [message, setMessage] = useState("");
 
   console.log("SHOP--------", shop);
-  console.log("Initial commit");
 
   useEffect(() => {
     fetch(`api/thankyou?shop=${shop.myshopifyDomain}`)
