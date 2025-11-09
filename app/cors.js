@@ -9,5 +9,7 @@ export default function withCors(response) {
   );
   newResponse.headers.set("Access-Control-Allow-Headers", "Content-Type");
 
+  console.log("Initial commit");
+
   return newResponse;
 }
