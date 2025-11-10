@@ -18,9 +18,7 @@ function ThankYouExtension() {
   console.log("SHOP--------", shop);
 
   useEffect(() => {
-    fetch(
-      `https://${shop.myshopifyDomain}/apps/thankyou?shop=${shop.myshopifyDomain}`,
-    )
+    fetch(`/apps/thankyou?shop=${shop.myshopifyDomain}`)
       .then((res) => {
         return res.json();
       })

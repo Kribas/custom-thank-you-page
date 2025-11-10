@@ -1,5 +1,6 @@
 import { json } from "@remix-run/react";
 import prisma from "../../db.server";
+import withCors from "../../cors";
 
 export async function loader({ request }) {
   //Handle preflight CORS request
@@ -14,9 +15,8 @@ export async function loader({ request }) {
     const shop = url.searchParams.get("shop");
 
     if (!shop) {
-      return json(
-        { error: "Missing 'shop' query parameter." },
-        { status: 400 },
+      return withCors(
+        json({ error: "Missing 'shop' query parameter." }, { status: 400 }),
       );
     }
 
@@ -26,15 +26,17 @@ export async function loader({ request }) {
     });
 
     //Create the response
-    const response = json({
-      message: settings?.message || "Thank you for your purchase!",
-    });
+    const response = withCors(
+      json({
+        message: settings?.message || "Thank you for your purchase!",
+      }),
+    );
 
     //Enable CORS so it can be fetched from storefronts or extensions
 
     return response;
   } catch (error) {
     console.error("Error in /api/thankyou route", error);
-    return json({ error: "Internal server error" }, { status: 500 });
+    return withCors(json({ error: "Internal server error" }, { status: 500 }));
   }
 }
