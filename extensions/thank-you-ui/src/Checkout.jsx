@@ -18,7 +18,9 @@ function ThankYouExtension() {
   console.log("SHOP--------", shop);
 
   useEffect(() => {
-    fetch(`/apps/thankyou?shop=${shop.myshopifyDomain}`)
+    fetch(
+      `https://bears-holmes-variance-jungle.trycloudflare.com/apps/thankyou?shop=${shop.myshopifyDomain}`,
+    )
       .then((res) => {
         return res.json();
       })
