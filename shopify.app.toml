@@ -2,7 +2,7 @@
 
 client_id = "9121cf31cc49116fcc5d120cd2840cc3"
 name = "custom-thank-you-page"
-application_url = "https://example.com"
+application_url = "https://glucose-webcams-final-references.trycloudflare.com"
 embedded = true
 
 [build]

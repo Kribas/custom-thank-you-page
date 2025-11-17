@@ -19,7 +19,7 @@ function ThankYouExtension() {
 
   useEffect(() => {
     fetch(
-      `https://bears-holmes-variance-jungle.trycloudflare.com/apps/thankyou?shop=${shop.myshopifyDomain}`,
+      `https://glucose-webcams-final-references.trycloudflare.com/api/thankyou?shop=${shop.myshopifyDomain}`,
     )
       .then((res) => {
         return res.json();
