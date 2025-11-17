@@ -14,13 +14,10 @@ export default reactExtension("purchase.checkout.block.render", () => (
 function ThankYouExtension() {
   const { shop } = useApi();
   const [message, setMessage] = useState("");
-
-  console.log("SHOP--------", shop);
+  let appUrl = process.env.APP_URL;
 
   useEffect(() => {
-    fetch(
-      `https://glucose-webcams-final-references.trycloudflare.com/api/thankyou?shop=${shop.myshopifyDomain}`,
-    )
+    fetch(`${appUrl}/api/thankyou?shop=${shop.myshopifyDomain}`)
       .then((res) => {
         return res.json();
       })
