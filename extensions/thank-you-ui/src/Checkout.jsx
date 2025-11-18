@@ -16,6 +16,8 @@ function ThankYouExtension() {
   const [message, setMessage] = useState("");
   let appUrl = process.env.APP_URL;
 
+  console.log("Initial commit");
+
   useEffect(() => {
     fetch(`${appUrl}/api/thankyou?shop=${shop.myshopifyDomain}`)
       .then((res) => {
