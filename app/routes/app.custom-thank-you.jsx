@@ -118,17 +118,17 @@ export default function AdditionalPage() {
               <TextField
                 onChange={handleDiscountCodeChange}
                 name="discountCode"
-                label="Discount Code(Optional)"
+                label="Discount Code Display(Optional)"
                 value={discountCode}
                 error={discountCodeError}
               />
-              <BlockStack gap="100">
+              {/* <BlockStack gap="100">
                 <Text>Thank you for your order!</Text>
                 <Text>
                   We appreciate you buying from us. Use code WELCOME10 for 10%
                   off your next purchase.
                 </Text>
-              </BlockStack>
+              </BlockStack> */}
               <Button submit variant="primary">
                 Save
               </Button>

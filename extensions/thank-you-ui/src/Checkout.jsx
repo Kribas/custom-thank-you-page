@@ -1,3 +1,4 @@
+import { json, useLoaderData } from "@remix-run/react";
 import {
   reactExtension,
   Text,
@@ -16,18 +17,17 @@ function ThankYouExtension() {
   const [message, setMessage] = useState("");
   let appUrl = process.env.APP_URL;
 
-  console.log("Initial commit");
-
   useEffect(() => {
     fetch(`${appUrl}/api/thankyou?shop=${shop.myshopifyDomain}`)
       .then((res) => {
         return res.json();
       })
       .then((data) => {
-        setMessage(data?.message);
+        setMessage(data);
       });
   }, [shop?.myshopifyDomain]);
 
+  console.log("DATA-----", message);
   // 3. Render a UI
-  return <Text appearance="success">{message}</Text>;
+  return <Text appearance="success">{message?.message}</Text>;
 }
