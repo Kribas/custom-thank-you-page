@@ -23,11 +23,12 @@ function ThankYouExtension() {
         return res.json();
       })
       .then((data) => {
+        console.log("DATA-----", data);
+
         setMessage(data);
       });
   }, [shop?.myshopifyDomain]);
 
-  console.log("DATA-----", message);
   // 3. Render a UI
   return <Text appearance="success">{message?.message}</Text>;
 }

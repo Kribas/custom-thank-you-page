@@ -29,13 +29,13 @@ export async function action({ request }) {
   const discountCode = formData.get("discountCode");
 
   try {
-    await prisma.ThankYouSettings.upsert({
+    let settings = await prisma.ThankYouSettings.upsert({
       where: { shop },
       update: { message, discountCode },
       create: { shop, message, discountCode },
     });
 
-    return { success: true };
+    return { success: true, settings: settings };
   } catch (error) {
     console.error("Error saving Thank You settings:", error);
     return { success: false, error: "Failed to save Thank You settings" };
