@@ -34,7 +34,7 @@ export async function action({ request }) {
       update: { message, discountCode },
       create: { shop, message, discountCode },
     });
-
+    console.log("SETTINGS---", settings);
     return { success: true, settings: settings };
   } catch (error) {
     console.error("Error saving Thank You settings:", error);
