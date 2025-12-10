@@ -17,7 +17,7 @@ import {
 import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server";
 import { useCallback, useEffect, useState } from "react";
-import { useActionData, Form } from "@remix-run/react";
+import { useActionData, Form, json } from "@remix-run/react";
 
 import prisma from "../db.server";
 
