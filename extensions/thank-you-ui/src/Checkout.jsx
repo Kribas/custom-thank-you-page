@@ -1,8 +1,8 @@
-import { json, useLoaderData } from "@remix-run/react";
 import {
   reactExtension,
   Text,
   useApi,
+  BlockStack,
   useShop,
 } from "@shopify/ui-extensions-react/checkout";
 import { useEffect, useState } from "react";
@@ -15,6 +15,7 @@ export default reactExtension("purchase.checkout.block.render", () => (
 function ThankYouExtension() {
   const { shop } = useApi();
   const [message, setMessage] = useState("");
+  const [discountCode, setDiscountCode] = useState("");
   let appUrl = process.env.APP_URL;
 
   useEffect(() => {
@@ -23,12 +24,23 @@ function ThankYouExtension() {
         return res.json();
       })
       .then((data) => {
-        console.log("DATA-----", data);
-
-        setMessage(data);
+        setMessage(data?.message);
+        if (data?.discountCode !== "") {
+          setDiscountCode(data?.discountCode);
+        }
       });
   }, [shop?.myshopifyDomain]);
 
   // 3. Render a UI
-  return <Text appearance="success">{message?.message}</Text>;
+  return (
+    <BlockStack>
+      <Text appearance="success">{message}</Text>
+      {discountCode && (
+        <Text>
+          We appreciate you buying from us. Use code {discountCode} for 10% off
+          your next purchase.
+        </Text>
+      )}
+    </BlockStack>
+  );
 }

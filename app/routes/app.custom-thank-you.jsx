@@ -34,7 +34,6 @@ export async function action({ request }) {
       update: { message, discountCode },
       create: { shop, message, discountCode },
     });
-    console.log("SETTINGS---", settings);
     return { success: true, settings: settings };
   } catch (error) {
     console.error("Error saving Thank You settings:", error);
@@ -48,7 +47,6 @@ export default function AdditionalPage() {
   const [discountCode, setDiscountCode] = useState("");
   const [activeToast, setActiveToast] = useState(false);
   const [messageError, setMessageError] = useState("");
-  const [discountCodeError, setDiscountCodeError] = useState("");
 
   const toggleActiveToast = useCallback(
     () => setActiveToast((activeToast) => !activeToast),
@@ -63,9 +61,6 @@ export default function AdditionalPage() {
   }, []);
   const handleDiscountCodeChange = useCallback((value) => {
     setDiscountCode(value);
-    if (value == "WELCOME10") {
-      setDiscountCodeError("");
-    }
   }, []);
 
   const toastMarkup =
@@ -85,11 +80,6 @@ export default function AdditionalPage() {
     let hasError = false;
     if (!message.trim()) {
       setMessageError("This field cannot be empty!");
-      hasError = true;
-    }
-
-    if (discountCode && discountCode !== "WELCOME10") {
-      setDiscountCodeError("The Discount code must be exactly 'WELCOME10'");
       hasError = true;
     }
     if (hasError) {
@@ -120,15 +110,7 @@ export default function AdditionalPage() {
                 name="discountCode"
                 label="Discount Code Display(Optional)"
                 value={discountCode}
-                error={discountCodeError}
               />
-              {/* <BlockStack gap="100">
-                <Text>Thank you for your order!</Text>
-                <Text>
-                  We appreciate you buying from us. Use code WELCOME10 for 10%
-                  off your next purchase.
-                </Text>
-              </BlockStack> */}
               <Button submit variant="primary">
                 Save
               </Button>

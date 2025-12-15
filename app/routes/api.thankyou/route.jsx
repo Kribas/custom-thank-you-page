@@ -29,6 +29,7 @@ export async function loader({ request }) {
     const response = withCors(
       json({
         message: settings?.message || "Thank you for your purchase!",
+        discountCode: settings?.discountCode || "",
       }),
     );
 
