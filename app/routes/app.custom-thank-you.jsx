@@ -13,11 +13,14 @@ import {
   Button,
   Toast,
   Frame,
+  DropZone,
+  Thumbnail,
+  LegacyStack,
 } from "@shopify/polaris";
-import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server";
 import { useCallback, useEffect, useState } from "react";
 import { useActionData, Form, json } from "@remix-run/react";
+import { NoteIcon } from "@shopify/polaris-icons";
 
 import prisma from "../db.server";
 
@@ -27,6 +30,7 @@ export async function action({ request }) {
   const formData = await request.formData();
   const message = formData.get("message");
   const discountCode = formData.get("discountCode");
+  const bannerImage = formData.get("bannerImage");
 
   try {
     let settings = await prisma.ThankYouSettings.upsert({
@@ -47,10 +51,35 @@ export default function AdditionalPage() {
   const [discountCode, setDiscountCode] = useState("");
   const [activeToast, setActiveToast] = useState(false);
   const [messageError, setMessageError] = useState("");
+  const [imageFile, setImageFile] = useState("");
 
   const toggleActiveToast = useCallback(
     () => setActiveToast((activeToast) => !activeToast),
     [],
+  );
+
+  const handleDropZoneDrop = useCallback(
+    (_dropFiles, acceptedFiles, _rejectedFiles) =>
+      setImageFile(acceptedFiles[0]),
+    [],
+  );
+
+  const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+
+  const imageUpload = !imageFile && <DropZone.FileUpload />;
+
+  const uploadedFile = imageFile && (
+    <LegacyStack>
+      <Thumbnail
+        size="small"
+        alt={imageFile.name}
+        source={
+          validImageTypes.includes(imageFile.type)
+            ? window.URL.createObjectURL(imageFile)
+            : NoteIcon
+        }
+      />
+    </LegacyStack>
   );
 
   const handleMessageChange = useCallback((value) => {
@@ -111,6 +140,12 @@ export default function AdditionalPage() {
                 label="Discount Code Display(Optional)"
                 value={discountCode}
               />
+
+              <DropZone allowMultiple={false} onDrop={handleDropZoneDrop}>
+                {imageUpload}
+                {uploadedFile}
+              </DropZone>
+
               <Button submit variant="primary">
                 Save
               </Button>
