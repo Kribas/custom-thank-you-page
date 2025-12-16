@@ -68,6 +68,8 @@ export default function AdditionalPage() {
 
   const imageUpload = !imageFile && <DropZone.FileUpload />;
 
+  console.log("Initial commit");
+
   const uploadedFile = imageFile && (
     <LegacyStack>
       <Thumbnail
