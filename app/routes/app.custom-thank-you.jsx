@@ -52,6 +52,7 @@ export default function AdditionalPage() {
   const [activeToast, setActiveToast] = useState(false);
   const [messageError, setMessageError] = useState("");
   const [imageFile, setImageFile] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
 
   const toggleActiveToast = useCallback(
     () => setActiveToast((activeToast) => !activeToast),
@@ -64,11 +65,20 @@ export default function AdditionalPage() {
     [],
   );
 
+  useEffect(() => {
+    if (!imageFile) return;
+    const objectUrl = URL.createObjectURL(imageFile);
+    setImagePreview(objectUrl);
+
+    //cleanUp
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [imageFile]);
+
   const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
 
-  const imageUpload = !imageFile && <DropZone.FileUpload />;
+  console.log("IMAGE PREVIEW-----", imagePreview);
 
-  console.log("Initial commit");
+  const imageUpload = !imageFile && <DropZone.FileUpload />;
 
   const uploadedFile = imageFile && (
     <LegacyStack>
@@ -76,9 +86,7 @@ export default function AdditionalPage() {
         size="small"
         alt={imageFile.name}
         source={
-          validImageTypes.includes(imageFile.type)
-            ? window.URL.createObjectURL(imageFile)
-            : NoteIcon
+          validImageTypes.includes(imageFile.type) ? imagePreview : NoteIcon
         }
       />
     </LegacyStack>
